@@ -454,3 +454,16 @@ document.addEventListener('DOMContentLoaded', function() {
         animateObserver.observe(statsSection);
     });
 });
+
+// ===== Basic Content Protection =====
+// Disable right-click context menu
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Disable common developer tools keyboard shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U)
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || 
+       (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j' || e.key === 'C' || e.key === 'c')) || 
+       (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.key === 'S' || e.key === 's'))) {
+        e.preventDefault();
+    }
+});
