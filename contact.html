@@ -104,7 +104,12 @@
             <!-- Contact Form -->
             <div class="contact-form-section">
                 <h2>Send us a Message</h2>
-                <form id="contactForm" class="contact-form">
+                <form id="contactForm" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <!-- Replace with your Web3Forms Access Key -->
+                    <input type="hidden" name="access_key" value="136cc650-ffdf-4140-899a-01f24f6fecb4">
+                    <!-- Spam Protection (Honeypot) -->
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
                     <div class="form-group">
                         <label for="name">Full Name *</label>
                         <input type="text" id="name" name="name" required>

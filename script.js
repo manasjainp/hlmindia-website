@@ -124,19 +124,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (submitBtn) submitBtn.disabled = true;
 
-            // 3. Prepare Data for PHP
-            const params = new URLSearchParams();
-            for (const pair of formData.entries()) {
-                params.append(pair[0], pair[1]);
-            }
+            // 3. Prepare Data for Web3Forms
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
 
             // 4. Send Request
-            fetch('submit_contact.php', {
+            fetch(this.action, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                body: params
+                body: json
             })
             .then(response => response.json())
             .then(data => {
@@ -144,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     showFormMessage(data.message, 'success');
                     contactForm.reset();
                 } else {
-                    showFormMessage('Error: ' + (data.error || 'Unknown error occurred'), 'error');
+                    showFormMessage('Error: ' + (data.message || 'Unknown error occurred'), 'error');
                 }
             })
             .catch(error => {
