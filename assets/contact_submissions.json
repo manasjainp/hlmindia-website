@@ -1,0 +1,35 @@
+[
+    {
+        "id": "msg_6999b709055017.06996472",
+        "date": "2026-02-21 08:45:45",
+        "name": "Vivek",
+        "email": "krishnaagenciessk@gmail.com",
+        "phone": "09842801205",
+        "company": "Inquiry about: Aluminum Can Filling Machine",
+        "subject": "product-inquiry",
+        "message": "Hello, I am interested in Aluminum Can Filling Machine. Please send a quote and availability.",
+        "newsletter": "Yes"
+    },
+    {
+        "id": "msg_6999b6ca565046.77110314",
+        "date": "2026-02-21 08:44:42",
+        "name": "Pradeepkumar",
+        "email": "pspradeepjain@gmail.com",
+        "phone": "09514466666",
+        "company": "Inquiry about: Ultimate Screw Cap",
+        "subject": "product-inquiry",
+        "message": "Hello, I am interested in Ultimate Screw Cap. Please send a quote and availability.",
+        "newsletter": "No"
+    },
+    {
+        "id": "msg_6999b46836f638.19661842",
+        "date": "2026-02-21 08:34:32",
+        "name": "Pradeepkumar",
+        "email": "pspradeepjain@gmail.com",
+        "phone": "09514466666",
+        "company": "Inquiry about: Carbonated Beverage Filling Machine",
+        "subject": "product-inquiry",
+        "message": "Hello, I am interested in Carbonated Beverage Filling Machine. Please send a quote and availability.",
+        "newsletter": "Yes"
+    }
+]
