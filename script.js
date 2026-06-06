@@ -124,18 +124,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (submitBtn) submitBtn.disabled = true;
 
-            // 3. Prepare Data for Web3Forms
-            const object = Object.fromEntries(formData);
-            const json = JSON.stringify(object);
-
-            // 4. Send Request
+            // 3. Send Request
             fetch(this.action, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: json
+                body: formData
             })
             .then(response => response.json())
             .then(data => {
