@@ -3,118 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Policy - Hertz Logic Machinery India LLP </title>
+    <title>Security Policy - Hertz Logic Machinery India LLP</title>
+    <meta name="description" content="Security policy and vulnerability reporting guidelines for Hertz Logic Machinery India LLP.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="stylesheet" href="styles.css">
+
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+        .security-content {
+            padding: 40px 20px;
         }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .security-content h2 {
+            font-size: 24px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
         }
-        h1, h2 {
-            color: #0056b3;
+        .security-content p, .security-content li {
+            font-size: 16px;
+            color: var(--text-color);
+            margin-bottom: 15px;
         }
-        a {
-            color: #0056b3;
-            text-decoration: none;
+        .security-content ul, .security-content ol {
+            padding-left: 20px;
         }
-        a:hover {
-            text-decoration: underline;
+        .security-content a {
+            color: var(--primary-color);
+            font-weight: 600;
         }
-        code {
-            background-color: #eee;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-        .alert {
+        .notice {
             padding: 15px;
             margin-bottom: 20px;
-            border: 1px solid transparent;
-            border-radius: 4px;
+            border-radius: 5px;
+            border-left: 5px solid;
         }
-        .alert-info {
-            color: #31708f;
-            background-color: #d9edf7;
-            border-color: #bce8f1;
+        .notice-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-color: #dc2626;
         }
-        .alert-danger {
-            color: #a94442;
-            background-color: #f2dede;
-            border-color: #ebccd1;
+        .notice-danger h3 {
+            color: #dc2626;
+            margin: 0 0 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Security Policy for Hertz Logic Machinery India LLP</h1>
-        <p><em>Last Updated: 2026-06-22</em></p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo.png" alt="Hertz Logic Machinery" class="site-logo">
+                    <div class="logo-text">
+                        <h1>Hertz Logic Machinery</h1>
+                        <p class="tagline">Quality Beverage Equipment Parts</p>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
-        <h2>Our Commitment to Security</h2>
-        <p>
-            At Hertz Logic Machinery India LLP, we consider the security of our systems a top priority. However, no matter how much effort we put into system security, there can still be vulnerabilities present.
-        </p>
-        <p>
-            If you discover a vulnerability, we would like to know about it so we can take steps to address it as quickly as possible. We would like to ask you to help us better protect our clients and our systems.
-        </p>
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Security Policy</h1>
+            <p>Our commitment to security and responsible disclosure.</p>
+        </div>
+    </section>
 
-        <h2>How to Report a Security Vulnerability</h2>
-        <p>
-            If you have discovered a security vulnerability, please report it to us by emailing <strong><a href="mailto:security@hlmindia.com">security@hlmindia.com</a></strong>.
-        </p>
-        <p>
-            Please include the following details in your report:
-        </p>
-        <ul>
-            <li>A detailed description of the vulnerability, including the steps to reproduce it.</li>
-            <li>The URL or IP address of the affected system.</li>
-            <li>Any proof-of-concept code, screenshots, or screen recordings to help us understand the issue.</li>
-            <li>Your name and contact information (optional, can be anonymous).</li>
-        </ul>
-        
-        
-        <h3 class="alert alert-danger">Out of Scope</h3>
-        <p>The following are considered out of scope:</p>
-        <ul>
-            <li>Denial of Service (DoS or DDoS) attacks.</li>
-            <li>Social engineering or phishing of our staff or customers.</li>
-            <li>Physical attacks against our employees, offices, or data centers.</li>
-            <li>Reports from automated scanners without a proof-of-concept.</li>
-            <li>Missing security headers that do not lead to a direct vulnerability.</li>
-            <li>Self-XSS and issues exploitable only through Self-XSS.</li>
-        </ul>
+    <!-- Main Content -->
+    <main class="security-content">
+        <div class="container">
+            <p><em>Last Updated: 2026-06-22</em></p>
 
-        <h2>What to Expect (Our Process)</h2>
-        <p>After you submit a report, we will:</p>
-        <ol>
-            <li>Send an automated acknowledgment of your report within 24 hours.</li>
-            <li>Provide a non-automated response within 3 business days to confirm the vulnerability and begin our investigation.</li>
-            <li>Keep you updated on our progress and notify you when the vulnerability has been fixed.</li>
-            <li>With your permission, we will publicly acknowledge your contribution on our Hall of Fame page.</li>
-        </ol>
+            <h2>Our Commitment to Security</h2>
+            <p>At Hertz Logic Machinery India LLP, we consider the security of our systems a top priority. However, no matter how much effort we put into system security, there can still be vulnerabilities present.</p>
+            <p>If you discover a vulnerability, we would like to know about it so we can take steps to address it as quickly as possible. We would like to ask you to help us better protect our clients and our systems.</p>
 
-        <h2>Safe Harbor</h2>
-        <p>
-            We consider security research and vulnerability disclosure activities conducted under this policy to be authorized. We will not pursue civil or criminal action, or initiate a complaint to law enforcement, against researchers for accidental, good-faith violations of this policy.
-        </p>
-        <p>
-            To be protected by this Safe Harbor provision, you must:
-        </p>
-        <ul>
-            <li>Comply with all guidelines in this policy.</li>
-            <li>Avoid privacy violations, destruction of data, and interruption or degradation of our services.</li>
-            <li>Not access or modify data that does not belong to you.</li>
-        </ul>
+            <h2>How to Report a Security Vulnerability</h2>
+            <p>If you have discovered a security vulnerability, please report it to us by emailing <strong><a href="mailto:security@hlmindia.com">security@hlmindia.com</a></strong>.</p>
+            <p>Please include the following details in your report:</p>
+            <ul>
+                <li>A detailed description of the vulnerability, including the steps to reproduce it.</li>
+                <li>The URL or IP address of the affected system.</li>
+                <li>Any proof-of-concept code, screenshots, or screen recordings to help us understand the issue.</li>
+                <li>Your name and contact information (optional, can be anonymous).</li>
+            </ul>
+            
+            <div class="notice notice-danger">
+                <h3>Out of Scope</h3>
+                <p>The following are considered out of scope:</p>
+                <ul>
+                    <li>Denial of Service (DoS or DDoS) attacks.</li>
+                    <li>Social engineering or phishing of our staff or customers.</li>
+                    <li>Physical attacks against our employees, offices, or data centers.</li>
+                    <li>Reports from automated scanners without a proof-of-concept.</li>
+                    <li>Missing security headers that do not lead to a direct vulnerability.</li>
+                    <li>Self-XSS and issues exploitable only through Self-XSS.</li>
+                </ul>
+            </div>
 
-    </div>
+            <h2>What to Expect (Our Process)</h2>
+            <p>After you submit a report, we will:</p>
+            <ol>
+                <li>Send an automated acknowledgment of your report within 24 hours.</li>
+                <li>Provide a non-automated response within 3 business days to confirm the vulnerability and begin our investigation.</li>
+                <li>Keep you updated on our progress and notify you when the vulnerability has been fixed.</li>
+                <li>With your permission, we will publicly acknowledge your contribution on our Hall of Fame page.</li>
+            </ol>
+
+            <h2>Safe Harbor</h2>
+            <p>We consider security research and vulnerability disclosure activities conducted under this policy to be authorized. We will not pursue civil or criminal action, or initiate a complaint to law enforcement, against researchers for accidental, good-faith violations of this policy.</p>
+            <p>To be protected by this Safe Harbor provision, you must:</p>
+            <ul>
+                <li>Comply with all guidelines in this policy.</li>
+                <li>Avoid privacy violations, destruction of data, and interruption or degradation of our services.</li>
+                <li>Not access or modify data that does not belong to you.</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <a href="index.html"><img src="assets/logo.png" alt="Hertz Logic Machinery" class="footer-logo-img"></a>
+            </div>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About Hertz Logic Machinery</h4>
+                    <p>Your trusted partner for high-quality beverage machinery spare parts and one-stop engineering solutions.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>Email: sales@hlmindia.com</p>
+                    <p>Phone: +91 9079490724</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hertz Logic Machinery India LLP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
