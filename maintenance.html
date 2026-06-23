@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Maintenance - HLM India LLP</title>
+    <meta name="description" content="Our website is currently undergoing scheduled maintenance to improve your experience. We will be back online shortly.">
+    <meta name="robots" content="noindex">
+    
+    <!-- Open Graph / Social Sharing Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Under Maintenance - HLM India LLP">
+    <meta property="og:description" content="Our website is currently undergoing scheduled maintenance to improve your experience. We will be back online shortly.">
+    <meta property="og:image" content="https://hlmindia.com/assets/social-preview.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Under Maintenance - HLM India LLP">
+    <meta name="twitter:description" content="Our website is currently undergoing scheduled maintenance to improve your experience. We will be back online shortly.">
+    <meta name="twitter:image" content="https://hlmindia.com/assets/social-preview.jpg">
+
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="icon" href="assets/images/logo.png" type="image/png">
+    <style>
+        /* Specific styles for the maintenance page layout */
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #091a3d, #0f355f);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .maintenance-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            text-align: center;
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Accent bar at the top */
+        .maintenance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--accent-color);
+        }
+
+        .logo-img {
+            height: 45px;
+            margin-bottom: 25px;
+            width: auto;
+        }
+
+        .maintenance-gif {
+            max-width: 150px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: softPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes softPulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .contact-box {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .contact-box h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+
+        .contact-box a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 480px) {
+            .maintenance-card {
+                padding: 30px 20px;
+            }
+            .logo-img {
+                height: 35px;
+                margin-bottom: 20px;
+            }
+            .maintenance-gif {
+                max-width: 120px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            p {
+                font-size: 13px;
+            }
+            .contact-box {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-card">
+        <img src="assets/images/logo.png" alt="Hertz Logic Machinery" class="logo-img">
+        
+        <div>
+            <img src="assets/images/maintenance.gif" alt="Under Maintenance" class="maintenance-gif">
+        </div>
+        
+        <h1>We are currently upgrading</h1>
+        <p>Our website is currently undergoing scheduled maintenance to improve your experience. We apologize for the inconvenience and will be back online shortly.</p>
+        
+        <div class="contact-box">
+            <h3>Need immediate assistance?</h3>
+            <p style="margin-bottom: 5px; font-size: 13px;">You can still reach our sales team at:</p>
+            <p style="margin: 0; font-size: 13px;">
+                📧 <a href="mailto:sales@hlmindia.com">sales@hlmindia.com</a><br>
+                📞 +91 9079490724
+            </p>
+        </div>
+        
+        <p style="margin-top: 30px; font-size: 12px; color: #9ca3af; margin-bottom: 0;">
+            &copy; 2026 Hertz Logic Machinery India LLP
+        </p>
+    </div>
+</body>
+</html>

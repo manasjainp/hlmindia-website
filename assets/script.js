@@ -205,9 +205,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (mobileBtn && navMenu) {
         mobileBtn.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            document.body.classList.toggle('mobile-menu-open');
-            this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+            const isExpanded = navMenu.classList.toggle('active');
+            document.body.classList.toggle('mobile-menu-open', isExpanded);
+            this.setAttribute('aria-expanded', isExpanded);
+            // Update icon for visual feedback
+            this.textContent = isExpanded ? '✕' : '☰';
         });
     }
 });
@@ -259,7 +261,7 @@ window.addEventListener('scroll', function() {
     const scrollButton = document.getElementById('scrollTopBtn');
     if (scrollButton) {
         if (window.pageYOffset > 300) {
-            scrollButton.style.display = 'block';
+            scrollButton.style.display = 'flex';
         } else {
             scrollButton.style.display = 'none';
         }

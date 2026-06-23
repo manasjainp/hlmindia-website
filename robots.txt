@@ -1,5 +1,11 @@
+# Allow all crawlers full access to the site content
 User-agent: *
 Allow: /
-Disallow: /404.html
 
+# Disallow pages that provide no value in search results
+Disallow: /404.html
+Disallow: /maintenance.html
+Disallow: /security-policy.html
+
+# Point to the XML sitemap for better indexing
 Sitemap: https://hlmindia.com/sitemap.xml
