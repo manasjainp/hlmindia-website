@@ -177,10 +177,10 @@ h1, h2, h3, h4, h5, h6, .logo-text h1, .btn, .nav-menu a {
 
 /* ===== Hero Section ===== */
 .hero {
-    padding: 90px 20px;
+    padding: 210px 20px;
     text-align: center;
     color: white;
-    background-color: var(--primary-color); /* Fallback */
+    background-color: var(--primary-color);
     background: linear-gradient(rgba(9, 26, 61, 0.7), rgba(15, 53, 95, 0.7)), url('../images/background_logo_index.png') center/cover no-repeat;
 }
 
