@@ -1249,7 +1249,8 @@
                 return null;
             }
             if (!response.ok) {
-                throw new Error(`GitHub API Error (${response.status}) while fetching ${filename}: ${response.statusText}`);
+                const errorData = await response.json().catch(() => ({ message: response.statusText }));
+                throw new Error(`GitHub API Error (${response.status}) while fetching ${filename}: ${errorData.message}`);
             }
 
             const data = await response.json();
@@ -1280,7 +1281,8 @@
                     currentSha = fileData.sha;
                 } else if (getResponse.status !== 404) {
                     // If it's not a 404 (file not found), then it's some other error.
-                    throw new Error(`GitHub API Error (${getResponse.status}) while checking for ${filename}: ${getResponse.statusText}`);
+                    const errorData = await getResponse.json().catch(() => ({ message: getResponse.statusText }));
+                    throw new Error(`GitHub API Error (${getResponse.status}) while checking for ${filename}: ${errorData.message}`);
                 }
                 // If it is a 404, currentSha remains null, which is correct for creating a new file.
             } catch (error) {
