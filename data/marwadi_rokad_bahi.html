@@ -194,6 +194,9 @@
             body { height: auto !important; overflow: visible !important; }
         }
     </style>
+    <div id="savingIndicator" style="display:none; position:fixed; bottom:20px; right:20px; background:var(--primary); color:white; padding:10px 20px; border-radius:var(--radius-md); box-shadow:var(--shadow-lg); z-index:3000; font-weight:700;">
+        Saving to GitHub...
+    </div>
 </head>
 <body>
 
@@ -245,6 +248,7 @@
                         <input type="date" id="navDate" onchange="loadPageForDate(this.value)">
                         <button onclick="shiftDate(1)" title="Next day (Ctrl+→)">▶</button>
                     </div>
+                    <button onclick="showTodaysSummary()">📈 Today's Summary</button>
                     <button class="btn-primary" onclick="showPartyModal()">👥 Master (Alt+V)</button>
                 </div>
             </div>
@@ -565,6 +569,7 @@
                     <h3 style="color: var(--primary);">☁️ GitHub Data Sync (Advanced)</h3>
                     <p style="font-size: 13px; color: #57534e;">Store all application data in a private GitHub repository instead of this browser's local storage. <strong style="color:var(--nava-color);">WARNING: This is an advanced feature. Your Personal Access Token will be stored in this browser. Anyone with access to your browser could potentially steal this token. Use a private repository and a token with minimal permissions.</strong></p>
                     <div id="githubSyncStatus" style="font-size:13px; font-weight:bold; margin-bottom:12px; padding:8px; border-radius:6px;"></div>
+                    <p id="lastSyncInfo" style="font-size: 12px; color: #78716c; margin-top: -8px; margin-bottom: 12px;"></p>
                     <div class="form-group" style="margin-bottom:8px;"><label>GitHub Username</label><input type="text" id="githubUser" placeholder="Your GitHub username"></div>
                     <div class="form-group" style="margin-bottom:8px;"><label>Repository Name</label><input type="text" id="githubRepo" placeholder="e.g., rokad-bahi-data"></div>
                     <div class="form-group" style="margin-bottom:8px;"><label>Folder Path (optional)</label><input type="text" id="githubPath" placeholder="e.g., data"></div>
@@ -572,11 +577,37 @@
                     <div style="display:flex; gap:10px; margin-top:10px;">
                         <button class="btn-primary" onclick="saveGitHubSettings()">Save & Test Connection</button>
                         <button onclick="disableGitHubSync()">Disable Sync</button>
+                        <button id="manualSyncBtn" class="btn-warning" onclick="forceSync()" style="display:none; margin-left: auto;">🔄 Sync Now</button>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Today's Summary Modal -->
+    <div class="modal-overlay" id="todaysSummaryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>📈 Today's Summary (<span id="summaryDate"></span>)</h2>
+                <button onclick="closeTodaysSummaryModal()" style="background:none; border:none; font-size:22px; cursor:pointer;">&times;</button>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                <div class="summary-box">
+                    <div class="closing-label">Opening Cash</div>
+                    <div class="closing-amount" id="summaryOpening">₹0.00</div>
+                </div>
+                <div class="summary-box" style="background: #1c1917; color: white;">
+                    <div class="closing-label" style="color: #a8a29e;">Closing Cash</div>
+                    <div class="closing-amount" id="summaryClosing">₹0.00</div>
+                </div>
+                <div class="summary-box"><div class="closing-label">Total Jama (+)</div><div class="closing-amount text-success" id="summaryJama">₹0.00</div></div>
+                <div class="summary-box"><div class="closing-label">Total Nava (-)</div><div class="closing-amount text-danger" id="summaryNava">₹0.00</div></div>
+            </div>
+            <div class="dialog-btns" style="justify-content:flex-end; margin-top:20px;">
+                <button class="btn-primary" onclick="closeTodaysSummaryModal()">OK</button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODALS -->
 
@@ -1101,7 +1132,7 @@
                 localStorage.setItem('rokad_settings_v4', JSON.stringify(appSettings));
                 localStorage.setItem('rokad_fy_resets_v4', JSON.stringify(fyResetPoints));
                 localStorage.setItem('rokad_payment_modes_v4', JSON.stringify(paymentModes));
-            return true;
+                return true;
             }
         }
 
@@ -1234,10 +1265,33 @@
 
             const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
 
+            const maxRetries = 3;
+            let retries = 0;
+
+            while (retries < maxRetries) {
+            // Step 1: Get the latest SHA of the file first to avoid 409 Conflict.
+            let currentSha = null;
+            try {
+                const getResponse = await fetch(url, {
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                if (getResponse.ok) {
+                    const fileData = await getResponse.json();
+                    currentSha = fileData.sha;
+                } else if (getResponse.status !== 404) {
+                    // If it's not a 404 (file not found), then it's some other error.
+                    throw new Error(`GitHub API Error (${getResponse.status}) while checking for ${filename}: ${getResponse.statusText}`);
+                }
+                // If it is a 404, currentSha remains null, which is correct for creating a new file.
+            } catch (error) {
+                 // Network error or other issue during the check.
+                 throw new Error(`Failed to check file status on GitHub before saving: ${error.message}`);
+            }
+
             const body = {
                 message: `Update ${filename} from Rokad Bahi`,
                 content: contentBase64,
-                sha: fileSHAs[filename] // Can be null if creating a new file
+                sha: currentSha // Use the fresh SHA. Can be null if creating a new file.
             };
 
             const response = await fetch(url, {
@@ -1252,11 +1306,21 @@
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(`GitHub API Error (${response.status}) updating ${filename}: ${errorData.message}`);
+                if (response.status === 409) {
+                    retries++;
+                    console.warn(`Conflict detected for ${filename}. Retrying (${retries}/${maxRetries})...`);
+                    // Optional: Add a small delay before retrying
+                    await new Promise(resolve => setTimeout(resolve, 500 * retries)); // Exponential backoff
+                } else {
+                    throw new Error(`GitHub API Error (${response.status}) updating ${filename}: ${errorData.message}`);
+                }
+            } else {
+                const responseData = await response.json();
+                fileSHAs[filename] = responseData.content.sha; // Update local SHA cache with the new one from the successful PUT.
+                return; // Success, exit loop
             }
-
-            const responseData = await response.json();
-            fileSHAs[filename] = responseData.content.sha; // Update SHA with the new one
+            }
+            throw new Error(`Failed to update ${filename} after ${maxRetries} retries due to conflict.`);
         }
 
         function renderLastSyncInfo() {
@@ -1569,10 +1633,10 @@
             if (query) {
                 const q = query.toLowerCase();
                 matches = parties.filter(p => 
-                    p.name.toLowerCase().includes(q) || 
-                    (p.alias && p.alias.toLowerCase().includes(q)) ||
-                    (p.phone && p.phone.includes(q)) ||
-                    (p.gst && p.gst.toLowerCase().includes(q))
+                    (p.name || '').toLowerCase().includes(q) || 
+                    (p.alias || '').toLowerCase().includes(q) ||
+                    (p.phone || '').includes(q) ||
+                    (p.gst || '').toLowerCase().includes(q)
                 );
             } else {
                 matches = [...parties].slice(0, 15);
