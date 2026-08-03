@@ -916,7 +916,29 @@
                     showCustomDialog("Sync with GitHub successful.", "alert");
 
                 } catch (error) {
-                    showCustomDialog(`GitHub Sync Error: ${error.message}. Data could not be loaded. Please check your settings and internet connection. The app will use local data as a fallback.`, "alert");
+                    const errorMessage = `GitHub Sync Error: ${error.message}. Data could not be loaded. The app will use local data as a fallback.`;
+                    const isAuthError = error.message.includes('401') || error.message.includes('Bad credentials');
+
+                    if (isAuthError) {
+                         showCustomDialog(errorMessage + "\n\nPlease check your Personal Access Token in Settings. You will be redirected there now.", "alert", () => {
+                            const settingsLink = document.querySelector('li[onclick*="settingsView"]');
+                            if (settingsLink) {
+                                navigateTo('settingsView', settingsLink);
+                                const tokenInput = document.getElementById('githubToken');
+                                tokenInput.style.borderColor = 'var(--nava-color)';
+                                tokenInput.style.boxShadow = '0 0 0 3px rgba(155, 58, 58, 0.2)';
+                                tokenInput.focus();
+                                tokenInput.addEventListener('input', function onInput() {
+                                    tokenInput.style.borderColor = '';
+                                    tokenInput.style.boxShadow = '';
+                                    tokenInput.removeEventListener('input', onInput);
+                                });
+                            }
+                        });
+                    } else {
+                        showCustomDialog(errorMessage, "alert");
+                    }
+                    
                     // Load from local storage as a fallback
                     entries = JSON.parse(localStorage.getItem('rokad_entries_v4')) || [];
                     parties = JSON.parse(localStorage.getItem('rokad_parties_v4')) || [];
@@ -1119,7 +1141,30 @@
                     localStorage.setItem('rokad_last_sync_v4', new Date().toISOString());
                     return true;
                 } catch (error) {
-                    showCustomDialog(`Failed to save data to GitHub: ${error.message}`);
+                    const errorMessage = `Failed to save data to GitHub: ${error.message}`;
+                    const isAuthError = error.message.includes('401') || error.message.includes('Bad credentials');
+
+                    if (isAuthError) {
+                        showCustomDialog(errorMessage + "\n\nPlease check your Personal Access Token in Settings. You will be redirected there now.", "alert", () => {
+                            const settingsLink = document.querySelector('li[onclick*="settingsView"]');
+                            if (settingsLink) {
+                                navigateTo('settingsView', settingsLink);
+                                // Highlight the problematic field
+                                const tokenInput = document.getElementById('githubToken');
+                                tokenInput.style.borderColor = 'var(--nava-color)';
+                                tokenInput.style.boxShadow = '0 0 0 3px rgba(155, 58, 58, 0.2)';
+                                tokenInput.focus();
+                                // Add a listener to clear the error style on input
+                                tokenInput.addEventListener('input', function onInput() {
+                                    tokenInput.style.borderColor = '';
+                                    tokenInput.style.boxShadow = '';
+                                    tokenInput.removeEventListener('input', onInput);
+                                });
+                            }
+                        });
+                    } else {
+                        showCustomDialog(errorMessage);
+                    }
                     return false;
                 } finally {
                     document.getElementById('savingIndicator').style.display = 'none';
