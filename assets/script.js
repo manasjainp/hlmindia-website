@@ -1,3 +1,14 @@
+// ===== Page Loader =====
+window.addEventListener('load', function() {
+    const pageLoader = document.getElementById('pageLoader');
+    if (!pageLoader) return;
+
+    setTimeout(() => {
+        pageLoader.classList.add('is-hidden');
+        setTimeout(() => pageLoader.remove(), 500);
+    }, 3000);
+});
+
 // ===== Filter Products on Products Page =====
 document.addEventListener('DOMContentLoaded', function() {
     // Product filtering functionality
