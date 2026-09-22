@@ -6,7 +6,7 @@ window.addEventListener('load', function() {
     setTimeout(() => {
         pageLoader.classList.add('is-hidden');
         setTimeout(() => pageLoader.remove(), 500);
-    }, 3000);
+    }, 2000);
 });
 
 // ===== Filter Products on Products Page =====
