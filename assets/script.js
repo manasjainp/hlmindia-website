@@ -1,5 +1,5 @@
 // ===== Page Loader =====
-window.addEventListener('load', function() {
+function hidePageLoader() {
     const pageLoader = document.getElementById('pageLoader');
     if (!pageLoader) return;
 
@@ -7,14 +7,104 @@ window.addEventListener('load', function() {
         pageLoader.classList.add('is-hidden');
         setTimeout(() => pageLoader.remove(), 500);
     }, 2000);
-});
+}
+
+if (document.readyState === 'complete') {
+    hidePageLoader();
+} else {
+    window.addEventListener('load', hidePageLoader, { once: true });
+}
 
 // ===== Filter Products on Products Page =====
 document.addEventListener('DOMContentLoaded', function() {
     // Product filtering functionality
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const productItems = document.querySelectorAll('.product-item');
+    let productItems = Array.from(document.querySelectorAll('.product-item'));
     const searchInput = document.getElementById('productSearch');
+
+    function parseProductsCsv(csv) {
+        const rows = [];
+        let row = [];
+        let value = '';
+        let insideQuotes = false;
+
+        for (const character of csv) {
+            if (character === '"') {
+                insideQuotes = !insideQuotes;
+            } else if (character === ',' && !insideQuotes) {
+                row.push(value.trim());
+                value = '';
+            } else if ((character === '\n' || character === '\r') && !insideQuotes) {
+                if (character === '\n' && value.length > 0) {
+                    row.push(value.trim());
+                    rows.push(row);
+                    row = [];
+                    value = '';
+                }
+            } else {
+                value += character;
+            }
+        }
+
+        if (value.length > 0) {
+            row.push(value.trim());
+            rows.push(row);
+        }
+
+        return rows.slice(1).map(columns => {
+            return {
+                category: columns[0],
+                image: columns[1],
+                name: columns[2],
+                description: columns[columns.length - 1]
+            };
+        }).filter(product => product.category && product.image && product.name);
+    }
+
+    function renderProducts(products) {
+        const productsGrid = document.getElementById('productsGrid');
+        if (!productsGrid) return;
+
+        productsGrid.innerHTML = products.map(product => `
+            <div class="product-item" data-category="${product.category}">
+                <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <button class="add-to-cart">Add to Inquiry</button>
+            </div>
+        `).join('');
+
+        productItems = Array.from(productsGrid.querySelectorAll('.product-item'));
+        addInquiryHandlers();
+    }
+
+    function addInquiryHandlers() {
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productName = this.parentElement.querySelector('h3').textContent;
+                const params = new URLSearchParams();
+                params.set('product', productName);
+                params.set('subject', 'product-inquiry');
+                params.set('message', `Hello, I am interested in ${productName}. Please send a quote and availability.`);
+                window.location.href = `contact.html?${params.toString()}#contactForm`;
+            });
+        });
+    }
+
+    const productsGrid = document.getElementById('productsGrid');
+    if (productsGrid) {
+        fetch('assets/products.csv')
+            .then(response => {
+                if (!response.ok) throw new Error('Could not load products.csv');
+                return response.text();
+            })
+            .then(csv => {
+                renderProducts(parseProductsCsv(csv));
+                filterProducts();
+            })
+            .catch(error => console.error('Product catalog error:', error));
+    }
 
     // Combined Filter Function (Category + Search)
     function filterProducts() {
@@ -162,20 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle "Add to Inquiry" button on products — redirect to contact page with product info
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const productName = this.parentElement.querySelector('h3').textContent;
-            const params = new URLSearchParams();
-            params.set('product', productName);
-            params.set('subject', 'product-inquiry');
-            params.set('message', `Hello, I am interested in ${productName}. Please send a quote and availability.`);
-            // Navigate to contact page with query params and anchor to form
-            window.location.href = `contact.html?${params.toString()}#contactForm`;
-        });
-    });
+    // Handle "Add to Inquiry" buttons on products.
+    addInquiryHandlers();
 
     // Handle "Request Service" button on services — redirect to contact page with service info
     const requestServiceButtons = document.querySelectorAll('.request-service-btn');
